@@ -1,47 +1,111 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="en">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+<head>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+	<link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+	<link rel="stylesheet" href="assets/css/lnr-icon.css">
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
-            <x-primary-button class="ml-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+	<link rel="stylesheet" href="assets/css/style.css">
+	<title>Login Page</title>
+
+	<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+	<div id="loader-wrapper">
+		<div class="loader">
+			<div class="dot"></div>
+			<div class="dot"></div>
+			<div class="dot"></div>
+			<div class="dot"></div>
+			<div class="dot"></div>
+		</div>
+	</div>
+
+	<div class="inner-wrapper login-body">
+		<div class="login-wrapper">
+			<div class="container">
+				<div class="loginbox shadow-sm grow">
+					<div class="login-left">
+						<img class="img-fluid" src="assets/img/logo.png" alt="Logo">
+					</div>
+					<div class="login-right">
+						<div class="login-right-wrap">
+							<h1>Login</h1>
+							<p class="account-subtitle">Access to our dashboard</p>
+
+							<form  method="POST" action="{{ route('login') }}">
+								@csrf
+
+								<div class="form-group">
+									<input class="form-control" type="text" id="email" name="email" value="{{old('email')}} "required placeholder="Email" autofocus autocomplete="username">
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="password" id="password" name="password" required placeholder="Password" autocomplete="current-password">
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+
+								</div>
+								
+                                <div class="block mt-4">
+                                    <label for="remember_me" class="inline-flex items-center">
+                                        <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                                        <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-theme button-1 text-white ctm-border-radius btn-block"
+                                        type="submit">Login</button>
+                                </div>
+							</form>
+
+                            @if (Route::has('password.request'))
+
+							<div class="text-center forgotpass">
+                                <a href="{{ route('password.request') }}">Forgot Password?</a>
+							</div>
+
+                            @endif
+
+
+                           
+
+							<div class="text-center dont-have">Don’t have an account? <a
+									href="{{route('register')}}">Register</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="assets/js/jquery-3.2.1.min.js"></script>
+
+	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+
+	<script src="assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+	<script src="assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+
+	<script src="assets/js/script.js"></script>
+</body>
+
+
+</html>

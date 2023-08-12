@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,14 +19,36 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('/admin/dashboard')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('', function () {
+        return view('admin.admin_dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/manage',[ManageController::class,'index'])->name('admin.manage');
+    Route::get('/employees',[ManageController::class,'getEmployees'])->name('admin.employees');
+    Route::get('/leave',[ManageController::class,'leave'])->name('admin.leave');
+    Route::get('/leave/apply',[ManageController::class,'leaveApply'])->name('employee.leaveApply');
+    Route::post('/leave/apply',[ManageController::class,'storeLeave'])->name('employee.storeLeave');
+
+
+
+
+
+
+});
+    
+
+
+Route::get('/employee/dashboard', function () {
+    return view('employee.employee_dashboard');
+})->middleware(['auth', 'verified'])->name('employee.dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/manage');
 });
 
 require __DIR__.'/auth.php';

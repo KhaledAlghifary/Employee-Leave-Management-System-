@@ -35,11 +35,11 @@
 	<div class="card-body text-center">
 		<div class="time-list">
 			<div class="dash-stats-list">
-				<span class="btn btn-outline-primary">4.5 Days</span>
+				<span class="btn btn-outline-primary">{{$taken_days}} Days</span>
 				<p class="mb-0">Taken</p>
 			</div>
 			<div class="dash-stats-list">
-				<span class="btn btn-outline-primary">7.5 Days</span>
+				<span class="btn btn-outline-primary">{{$remaining_days}} Days</span>
 				<p class="mb-0">Remaining</p>
 			</div>
 		</div>
@@ -55,62 +55,33 @@
 		</div>
 		<div class="card-body recent-activ">
 			<div class="recent-comment">
+				@forelse ($user_leave_requests as $request)
+					
 				<a href="javascript:void(0)" class="dash-card text-danger">
 					<div class="dash-card-container">
 						<div class="dash-card-icon">
 							<i class="fa fa-suitcase"></i>
 						</div>
-						<div class="dash-card-content">
-							<h6 class="mb-0">Mon, 16 Dec 2019</h6>
+						<div class="dash-card-content " style="display: flex; justify-content: space-between;">
+							<h6 class="mb-0">{{$request->start_date}}</h6>
+							@if($request->status == "Pending")
+							<span class=" px-2 py-1 rounded mb-2 bg-secondary text-white">{{$request->status}}</span>
+							@elseif($request->status == "Approved")
+							<span class=" px-2 py-1 rounded mb-2 bg-success text-white">{{$request->status}}</span>
+							@else
+							<span class=" px-2 py-1 rounded mb-2 bg-danger text-white">{{$request->status}}</span>
+							@endif
 						</div>
 					</div>
 				</a>
 				<hr>
-				<a href="javascript:void(0)" class="dash-card text-primary">
-					<div class="dash-card-container">
-						<div class="dash-card-icon">
-							<i class="fa fa-suitcase"></i>
-						</div>
-						<div class="dash-card-content">
-							<h6 class="mb-0">Mon, 23 Dec 2019</h6>
-						</div>
-					</div>
-				</a>
-				<hr>
-				<a href="javascript:void(0)" class="dash-card text-primary">
-					<div class="dash-card-container">
-						<div class="dash-card-icon">
-							<i class="fa fa-suitcase"></i>
-						</div>
-						<div class="dash-card-content">
-							<h6 class="mb-0">Wed, 25 Dec 2019</h6>
-						</div>
-					</div>
-				</a>
-				<hr>
-				<a href="javascript:void(0)" class="dash-card text-primary">
-					<div class="dash-card-container">
-						<div class="dash-card-icon">
-							<i class="fa fa-suitcase"></i>
-						</div>
-						<div class="dash-card-content">
-							<h6 class="mb-0">Fri, 27 Dec 2019</h6>
-						</div>
-					</div>
-				</a>
-				<hr>
-				<a href="javascript:void(0)" class="dash-card text-primary">
-					<div class="dash-card-container">
-						<div class="dash-card-icon">
-							<i class="fa fa-suitcase"></i>
-						</div>
-						<div class="dash-card-content">
-							<h6 class="mb-0">Tue, 31 Dec 2019</h6>
-						</div>
-					</div>
-				</a>
+				@empty
+
+				@endforelse
+				
 			</div>
 		</div>
 	</div>
 </div>
+
 @endsection

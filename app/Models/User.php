@@ -54,4 +54,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(LeaveRequest::class);
     }
+
+    public function approvedLeaveDuration()
+    {
+        return $this->leaveRequests()
+            ->where('status', 'Approved')
+            ->sum(\DB::raw('DATEDIFF(end_date, start_date)'));
+    }
 }

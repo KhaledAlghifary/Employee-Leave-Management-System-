@@ -12,7 +12,11 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        //\
+        $user_leave_requests=auth()->user()->leaveRequests()->where('start_date','>=',now())->orderBy('start_date','desc')->get();
+        $remaining_days=auth()->user()->remaining_days;
+        $taken_days=auth()->user()->approvedLeaveDuration();
+        return view('employee.employee_dashboard',compact('user_leave_requests','remaining_days','taken_days'));
     }
 
     /**

@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="{{asset('assets/css/font-awesome.min.css')}}">
 
 	<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+	<link href="{{ asset('assets/plugins/bootstrap-toastr/toastr.min.css') }}" rel="stylesheet" type="text/css">
 	<title>Dashboard Page</title>
 
 	<!--[if lt IE 9]>
@@ -224,7 +225,12 @@
 	<script src="{{asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js')}}"></script>
 	<script src="{{asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js')}}"></script>
 
+	<script src="{{ asset('assets/plugins/bootstrap-toastr/toastr.min.js') }}" type="text/javascript">
+    </script>
+
 	<script src="{{asset('assets/js/script.js')}}"></script>
+
+
 </body>
 
 </html>

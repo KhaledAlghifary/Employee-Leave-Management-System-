@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\leaveTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,12 @@ Route::prefix('/admin/dashboard')->middleware(['auth', 'verified'])->group(funct
     Route::get('/leave',[ManageController::class,'leave'])->name('admin.leave');
     Route::get('/leave/apply',[ManageController::class,'leaveApply'])->name('employee.leaveApply');
     Route::post('/leave/apply',[ManageController::class,'storeLeave'])->name('employee.storeLeave');
+    Route::resource('leave/types', leaveTypeController::class);
+
+    Route::get('/leave/manage/{status}/{user_id}/{leave}',[ManageController::class,'manageLeaveModal'])->name('admin.manageLeaveModal');
+    Route::post('/leave/manage/{leave}',[ManageController::class,'manageLeave'])->name('admin.manageLeave');
+
+
 
 
 
@@ -39,9 +47,7 @@ Route::prefix('/admin/dashboard')->middleware(['auth', 'verified'])->group(funct
     
 
 
-Route::get('/employee/dashboard', function () {
-    return view('employee.employee_dashboard');
-})->middleware(['auth', 'verified'])->name('employee.dashboard');
+Route::get('/employee/dashboard', [EmployeeController::class,'index'])->middleware(['auth', 'verified'])->name('employee.dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -14,7 +14,16 @@ class ManageController extends Controller
 {
     //
 
-    public function index(Request $request){
+    public function __construct()
+    {
+            $this->middleware('checkRole:admin');
+    }
+
+    public function index(){
+        return view('admin.admin_dashboard');
+    }
+
+    public function manage(Request $request){
         $leaveTypes=LeaveTypes::orderBy('id', 'desc')->paginate(5);
        
         return view('admin.manage',compact('leaveTypes'));
@@ -29,33 +38,7 @@ class ManageController extends Controller
         $requests=LeaveRequest::with('employee','leaveType')->paginate(5);
         return view('admin.leave',compact('requests'));
     }
-    public function leaveApply(){
-
-        $leaveTypes=LeaveTypes::get();
-        if($leaveTypes->isNotEmpty()){
-            return view('employee.leaveApply',compact('leaveTypes'));
-
-        }
-        return redirect()->back()->with('info','Leave Applying is not ready');
-
-        
-    }
-
-    public function storeLeave(leaveApplyRequest $request){
-        $data = array_merge($request->all(), [
-            'user_id'=>auth()->user()->id,
-             'status'=>"Pending"
-        ]);
-        $leaveRequest=LeaveRequest::create($data);
-
-        if( $leaveRequest)
-        $html= 'Leave Request is added successfully';
-        else
-        $html= 'Something has gone wrong!';
-
-        
-        return $html;
-    }
+   
     public function manageLeaveModal($status,$user_id,$leave){
         $route=route('admin.manageLeave',$leave);
        

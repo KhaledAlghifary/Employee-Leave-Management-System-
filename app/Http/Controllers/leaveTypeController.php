@@ -9,6 +9,10 @@ use App\Http\Requests\leaveTypeRequest;
 class leaveTypeController extends Controller
 {
     //
+    public function __construct()
+    {
+            $this->middleware('checkRole:admin');
+    }
 
     public function index(){
         $leave_types=LeaveTypes::get();

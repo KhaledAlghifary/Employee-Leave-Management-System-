@@ -22,15 +22,12 @@ Route::get('/', function () {
 });
 
 Route::prefix('/admin/dashboard')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('', function () {
-        return view('admin.admin_dashboard');
-    })->name('admin.dashboard');
+    Route::get('', [ManageController::class,'index'])->name('admin.dashboard');
 
-    Route::get('/manage',[ManageController::class,'index'])->name('admin.manage');
+    Route::get('/manage',[ManageController::class,'manage'])->name('admin.manage');
     Route::get('/employees',[ManageController::class,'getEmployees'])->name('admin.employees');
     Route::get('/leave',[ManageController::class,'leave'])->name('admin.leave');
-    Route::get('/leave/apply',[ManageController::class,'leaveApply'])->name('employee.leaveApply');
-    Route::post('/leave/apply',[ManageController::class,'storeLeave'])->name('employee.storeLeave');
+    
     Route::resource('leave/types', leaveTypeController::class);
 
     Route::get('/leave/manage/{status}/{user_id}/{leave}',[ManageController::class,'manageLeaveModal'])->name('admin.manageLeaveModal');
@@ -47,7 +44,20 @@ Route::prefix('/admin/dashboard')->middleware(['auth', 'verified'])->group(funct
     
 
 
-Route::get('/employee/dashboard', [EmployeeController::class,'index'])->middleware(['auth', 'verified'])->name('employee.dashboard');
+Route::prefix('/employee/dashboard')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('', [EmployeeController::class,'index'])->name('employee.dashboard');
+    Route::get('/leave/apply',[EmployeeController::class,'leaveApply'])->name('employee.leaveApply');
+    Route::post('/leave/apply',[EmployeeController::class,'storeLeave'])->name('employee.storeLeave');
+
+  
+
+
+
+
+
+
+
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
